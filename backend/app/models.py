@@ -4,7 +4,8 @@ from sqlalchemy import (
     String,
     Float,
     DateTime,
-    ForeignKey
+    ForeignKey,
+    Boolean
 )
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -39,6 +40,7 @@ class HealthCheck(Base):
 
     status_code = Column(Integer)
     response_time = Column(Float)
+    is_up = Column(Boolean, default=False)
     checked_at = Column(
         DateTime,
         default=datetime.utcnow

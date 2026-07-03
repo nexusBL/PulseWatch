@@ -2,10 +2,19 @@ from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
 from app.routers.urls import router as urls_router
+from contextlib import asynccontextmanager
+from app.scheduler import start_scheduler
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    start_scheduler()
+    yield
+
 
 app = FastAPI(
     title="PulseWatch API",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 Base.metadata.create_all(bind=engine)
