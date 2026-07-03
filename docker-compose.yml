@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    container_name: pulsewatch-backend
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: pulsewatch-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8001
+    depends_on:
+      - backend
